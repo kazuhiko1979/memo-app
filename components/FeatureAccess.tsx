@@ -104,6 +104,20 @@ export function FeatureAccess() {
               >
                 ログインして使う
               </Link>
+            ) : card.title === "メモを作成する" ? (
+              <Link
+                href="/memos/new"
+                className="inline-flex w-fit items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-slate-900/10 transition hover:bg-slate-800"
+              >
+                新規メモを作成
+              </Link>
+            ) : card.title === "メモを閲覧する" ? (
+              <Link
+                href="/memos"
+                className="inline-flex w-fit items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-slate-900/10 transition hover:bg-slate-800"
+              >
+                保存済みメモを開く
+              </Link>
             ) : (
               <button
                 type="button"

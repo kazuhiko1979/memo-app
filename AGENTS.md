@@ -49,5 +49,19 @@
 - 共有ドキュメント: `DESIGN_SYSTEM.md` を参照。レイアウト、カラー、タイポグラフィ、カード/ボタン/チップのパターン、Markdown表示の指針を定義。  
 - 新規UI追加時は同ドキュメントのトークンとパターンに合わせ、グローバルCSSを増やさずユーティリティ中心で統一すること。  
 
+## Playwright でのログイン動作確認
+- 起動: `NEXT_PUBLIC_SUPABASE_URL=http://localhost:54321 NEXT_PUBLIC_SUPABASE_ANON_KEY=dummy npm run dev -- --hostname 127.0.0.1 --port 3000` を利用し、http://127.0.0.1:3000 を開く。  
+- 確認ページ: ログイン画面は `/login`（例: http://127.0.0.1:3000/login）。  
+- 進行: サーバー起動後、Playwright でブラウザを開き `/login` に遷移し、日本語文言が文字化けしていないことを確認する。  
+- Supabase 送信: ダミー判定は撤去済み。`.env.local` の `NEXT_PUBLIC_SUPABASE_URL` と `NEXT_PUBLIC_SUPABASE_ANON_KEY` が有効値なら、フォーム送信で Supabase に OTP メールを送信する。ダミー値の場合は送信失敗（コンソールにエラー）。  
+
+## メモ機能（作成・閲覧）
+- 作成: `/memos/new` で `MemoCreateForm` を使用し、タイトル/カテゴリ/タグ/本文（Markdown）を Supabase `memos` テーブルに保存。ログイン必須。  
+- 閲覧: `/memos` で `MemoList` がログインユーザーのメモを Supabase から取得し、Markdown をプレビューと同じスタイルでレンダリング表示。非ログイン時はエラー表示。  
+- 詳細: 各メモカードに「詳細を開く」リンクを設置し `/memos/{id}` (MemoDetail) で Notion風カード/ガラス質感の詳細表示。  
+- 編集: `/memos/{id}` でタイトル/本文を編集し Supabase に更新（ログイン必須）。  
+- 削除: `/memos/{id}` の「削除」から Supabase に DELETE。RLS で `user_id = auth.uid()` の DELETE を許可していることが前提。`SUPABASE_SERVICE_ROLE_KEY` を設定すればサーバー側API経由で確実に削除可能。  
+- 導線: トップの「メモを閲覧する」カードから `/memos`、同「メモを作成する」カードから `/memos/new` に遷移。  
+
 ## Communication
 - チャットでのやり取りは今後日本語でお願いします。必要に応じて技術用語は英語併記で構いませんが、説明や要望は日本語で統一してください。

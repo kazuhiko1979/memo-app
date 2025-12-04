@@ -43,7 +43,13 @@ export default function LoginPage() {
       }
     } catch (caughtError) {
       setStatus("error");
-      setError("ネットワークエラーが発生しました。接続を確認して再試行してください。");
+      const fallbackMessage =
+        "ネットワークエラーが発生しました。接続設定を確認して再試行してください。";
+      setError(
+        caughtError instanceof Error
+          ? `${fallbackMessage} (${caughtError.message})`
+          : fallbackMessage,
+      );
       notify("ネットワークエラーにより送信に失敗しました。", "error");
       return;
     }

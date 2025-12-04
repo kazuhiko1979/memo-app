@@ -1,0 +1,12 @@
+# プロジェクト概要
+- 目的: Supabase をバックエンドにしたメモアプリ。メモにカテゴリ(階層)・タグ(横断)を付与し、Markdown 入力/プレビューを標準化する予定。Apple 系のガラス質感ベースの UI を目指す。
+- 技術スタック: Next.js 16 (App Router), React 19, TypeScript 5, Tailwind CSS v4, Supabase JS v2。テストは Jest + React Testing Library。
+- ディレクトリ構成(主要):
+  - `app/`: ルート/ページ・レイアウト、API ルート(`app/api/supabase-health`)、認証系(`auth`, `login`, `signup`)、`globals.css`。
+  - `components/`: UI コンポーネント(AppHeader, AuthCTA, FeatureAccess, ToastProvider)。
+  - `lib/`: `supabaseClient.ts`。
+  - `__tests__/`: Jest テスト(`smoke.test.ts`)。
+  - ルート設定: `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, Tailwind/PostCSS 設定。
+- デザイン指針: `DESIGN_SYSTEM.md` を参照。グローバル CSS 追加は最小限にし、ユーティリティ中心でパターンに合わせる。
+- 環境変数: Supabase 用 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` を `.env.local` に配置(欠けるとビルドエラー)。
+- 参考ドキュメント: `AGENTS.md` に運用ガイド、`DESIGN_SYSTEM.md` にデザインシステム。
