@@ -1,38 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # memo-app
-# memo-app
+
+Next.js 16 / React 19 / TypeScript / Tailwind v4 + Supabase で構築したメモアプリです。カテゴリ・タグ・キーワード検索、Markdownプレビュー付きでメモを整理できます。
+
+## セットアップ
+1. 依存インストール: `npm install`
+2. 環境変数（`.env.local`）:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - （任意）`SUPABASE_SERVICE_ROLE_KEY` … サーバーAPIで削除を確実に行いたい場合に使用。クライアントには露出しません。
+3. 開発起動: `npm run dev` （デフォルト http://localhost:3000）
+
+## 主なスクリプト
+- 開発: `npm run dev`
+- ビルド: `npm run build`
+- 本番起動: `npm run start`
+- Lint: `npm run lint`
+- テスト: `npm test`
+- 型チェック: `npm run typecheck`
+
+## 機能
+- メモ作成: `/memos/new` でタイトル/カテゴリ/タグ/本文（Markdownプレビュー）を入力して保存（ログイン必須）。
+- 一覧・検索: `/memos` で自分のメモを取得し、キーワード（タイトル/本文 ilike）、カテゴリ、タグ（AND条件）でフィルタ。Markdownはプレビュー同等スタイル。
+- 詳細/編集/削除: `/memos/{id}` で Notion風カード表示。タイトル・本文の編集、削除が可能。削除には RLS で `user_id = auth.uid()` の DELETE 許可が必要。サービスロールキーがあればサーバーAPI経由で確実に削除できます。
+- 認証: Supabase Auth の OTP メールログイン（`.env.local` の URL/Key が有効なら実送信）。
+
+## フォルダ構成（概要）
+- `app/` … ルート/ページ。`app/memos` に一覧・新規・詳細、`app/api` にメモ削除APIなど。
+- `components/` … 共通UI。`components/memos/` に MemoList/Detail/CreateForm。
+- `lib/` … Supabaseクライアント（通常/任意サービスロール）。
+- `docs/` … 機能拡張計画など（例: `feature-plan-memos.md`）。
+- `AGENTS.md`, `DESIGN_SYSTEM.md` … プロジェクト運用・デザインガイド。
+
+## Playwright 確認（ログイン）
+1. `npm run dev -- --hostname 127.0.0.1 --port 3000`
+2. ブラウザで `/login` へ遷移し、OTPメール送信が動作することを確認（有効な Supabase URL/Key 前提）。
+
+## Supabase ポリシーの注意
+- RLS: `memos` テーブルで `user_id = auth.uid()` の SELECT/UPDATE/DELETE を許可してください。編集・削除が動かない場合は RLS を確認してください。
+- インデックス/検索: 必要に応じて `tags` の GIN、`content` の pg_trgm インデックスを検討できます。
