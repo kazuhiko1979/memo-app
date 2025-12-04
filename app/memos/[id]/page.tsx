@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { AppHeader } from "@/components/AppHeader";
-import { MemoDetail } from "@/components/MemoDetail";
+import { MemoDetail } from "@/components/memos/MemoDetail";
 
 type Props = {
   params: Promise<{

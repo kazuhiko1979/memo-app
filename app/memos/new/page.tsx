@@ -1,5 +1,5 @@
 import { AppHeader } from "@/components/AppHeader";
-import { MemoCreateForm } from "@/components/MemoCreateForm";
+import { MemoCreateForm } from "@/components/memos/MemoCreateForm";
 
 export default function NewMemoPage() {
   return (

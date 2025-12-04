@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { AppHeader } from "@/components/AppHeader";
-import { MemoList } from "@/components/MemoList";
+import { MemoList } from "@/components/memos/MemoList";
 
 export default function MemosPage() {
   const [search, setSearch] = useState("");

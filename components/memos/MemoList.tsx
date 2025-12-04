@@ -115,9 +115,7 @@ export function MemoList({ filters }: { filters: Filters }) {
 
       if (filters.search.trim()) {
         const term = filters.search.trim().replace(/%/g, "\\%");
-        query = query.or(
-          `title.ilike.%${term}%,content.ilike.%${term}%`,
-        );
+        query = query.or(`title.ilike.%${term}%,content.ilike.%${term}%`);
       }
 
       if (filters.category.trim()) {

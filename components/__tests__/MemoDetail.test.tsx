@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import { MemoDetail } from "@/components/MemoDetail";
+import { MemoDetail } from "@/components/memos/MemoDetail";
 
 const mockNotify = jest.fn();
 const mockGetSession = jest.fn();
